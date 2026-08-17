@@ -814,11 +814,11 @@ body.noturno .search-result-item:hover{background:var(--surface)}
       <h2 style="font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:300;color:var(--paper)">Para <em style="font-style:italic;font-weight:700">todo tipo</em> de leitor</h2>
     </div>
     <div class="cat-grid">
-      <div class="cat-item" onclick="window.location.href='/categorias.html?cat=classico'"><div class="ci-num">01</div><div class="ci-name"><em>Clássicos</em></div><div class="ci-count">Obras imortais</div></div>
-      <div class="cat-item" onclick="window.location.href='/categorias.html?cat=aventura'"><div class="ci-num">02</div><div class="ci-name"><em>Aventura</em></div><div class="ci-count">Grandes jornadas</div></div>
-      <div class="cat-item" onclick="window.location.href='/categorias.html?cat=suspense'"><div class="ci-num">03</div><div class="ci-name"><em>Suspense</em></div><div class="ci-count">Histórias intensas</div></div>
-      <div class="cat-item" onclick="window.location.href='/categorias.html?cat=romance'"><div class="ci-num">04</div><div class="ci-name"><em>Romance</em></div><div class="ci-count">Histórias de amor</div></div>
-      <div class="cat-item" onclick="window.location.href='/categorias.html?cat=serie'"><div class="ci-num">05</div><div class="ci-name">Séries <em>& Sagas</em></div><div class="ci-count">Sagas completas</div></div>
+      <div class="cat-item" onclick="window.location.href='/categorias?cat=classico'"><div class="ci-num">01</div><div class="ci-name"><em>Clássicos</em></div><div class="ci-count">Obras imortais</div></div>
+      <div class="cat-item" onclick="window.location.href='/categorias?cat=aventura'"><div class="ci-num">02</div><div class="ci-name"><em>Aventura</em></div><div class="ci-count">Grandes jornadas</div></div>
+      <div class="cat-item" onclick="window.location.href='/categorias?cat=suspense'"><div class="ci-num">03</div><div class="ci-name"><em>Suspense</em></div><div class="ci-count">Histórias intensas</div></div>
+      <div class="cat-item" onclick="window.location.href='/categorias?cat=romance'"><div class="ci-num">04</div><div class="ci-name"><em>Romance</em></div><div class="ci-count">Histórias de amor</div></div>
+      <div class="cat-item" onclick="window.location.href='/categorias?cat=serie'"><div class="ci-num">05</div><div class="ci-name">Séries <em>& Sagas</em></div><div class="ci-count">Sagas completas</div></div>
     </div>
   </div>
 </section>
@@ -846,7 +846,7 @@ body.noturno .search-result-item:hover{background:var(--surface)}
       <div><div class="fc-head">BiblioClube</div><div class="fc-links"><a href="#">Sobre</a><a href="#">Newsletter</a><a href="#">Sugerir livro</a></div></div>
       <div><div class="fc-head">Para Escolas</div><div class="fc-links"><a href="https://escolas.biblioclube.com.br">BiblioClube Escolas</a><a href="#">Planos</a><a href="#">Contato</a></div></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 BiblioClube · Domínio público</span><span><a href="/privacidade.html" style="color:var(--ember);text-decoration:none">Política de Privacidade</a> · Feito para leitores brasileiros</span></div>
+    <div class="footer-bottom"><span>© 2026 BiblioClube · Domínio público</span><span><a href="/privacidade" style="color:var(--ember);text-decoration:none">Política de Privacidade</a> · Feito para leitores brasileiros</span></div>
   </div>
 </footer>
 
@@ -1120,7 +1120,7 @@ async function _buscarAPI(q){
       const capaHtml=l.capa_url
         ?`<img src="${l.capa_url}" style="width:100%;height:100%;object-fit:cover">`
         :`<svg width="14" height="18" viewBox="0 0 14 18" fill="none"><rect x="1" y="1" width="12" height="16" rx="1" stroke="rgba(255,255,255,0.4)" stroke-width="1"/></svg>`;
-      return `<div class="search-result-item" onclick="window.location.href='/livro.html?slug=${l.slug||l.id}'">
+      return `<div class="search-result-item" onclick="window.location.href='/livro?slug=${l.slug||l.id}'">
         <div class="sri-cover" style="background:${cor}">${capaHtml}</div>
         <div>
           <div class="sri-title">${l.titulo}${l.pago?' 💰':''}</div>
@@ -1144,7 +1144,7 @@ function abrirLivro(id){
   const l=ACERVO.find(x=>x.id===id);
   if(!l) return;
   // Vai para a página do livro primeiro (com sinopse e AdSense)
-  window.location.href='/livro.html?slug='+(l.slug||l.id);
+  window.location.href='/livro?slug='+(l.slug||l.id);
 }
 
 // Fechar busca ao clicar fora

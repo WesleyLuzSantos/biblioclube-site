@@ -1,9 +1,6 @@
 User-agent: *
 Allow: /
-Allow: /livro.html
-Allow: /categorias.html
-Allow: /privacidade.html
-Disallow: /leitor.html
+Disallow: /leitor
 
 # Sitemaps
 Sitemap: https://biblioclube.com.br/sitemap.xml

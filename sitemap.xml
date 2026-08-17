@@ -10,35 +10,39 @@
   </url>
 
   <url>
-    <loc>https://biblioclube.com.br/categorias.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://biblioclube.com.br/privacidade.html</loc>
+    <loc>https://biblioclube.com.br/privacidade</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
+  <!-- Categorias -->
+  <url><loc>https://biblioclube.com.br/categorias?cat=classico</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=romance</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=aventura</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=suspense</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=drama</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=filosofia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=serie</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=gibi</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
   <!-- Livros mais importantes indexados diretamente -->
-  <url><loc>https://biblioclube.com.br/livro.html?slug=dom-casmurro</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=memorias-postumas</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=1984</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=monte-cristo</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=crime-castigo</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=dracula</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=frankenstein</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=orgulho-preconceito</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=sherlock-estudo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=arte-guerra</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=revolucao-bichos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=tres-mosqueteiros</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=guerra-mundos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=maquina-tempo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=iracema</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=o-cortico</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=dom-quixote</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro.html?slug=lupin-casaca</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=dom-casmurro</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=memorias-postumas</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=1984</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=monte-cristo</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=crime-castigo</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=dracula</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=frankenstein</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=orgulho-preconceito</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=sherlock-estudo</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=arte-guerra</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=revolucao-bichos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=tres-mosqueteiros</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=guerra-mundos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=maquina-tempo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=iracema</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=o-cortico</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=dom-quixote</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=lupin-casaca</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
 </urlset>

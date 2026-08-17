@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="pg-title">BiblioClube</title>
 <meta name="description" id="pg-desc" content="Leia gratuitamente no BiblioClube">
+<!--SSR_META-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,400;1,700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -229,9 +230,9 @@ footer a{color:var(--rust);text-decoration:none}
 </header>
 
 <!-- HERO DINÂMICO -->
-<div id="livro-hero-wrap">
+<div id="livro-hero-wrap"><!--SSR_HERO_START-->
   <div class="loading-page"><div class="spinner"></div><p style="color:var(--muted);font-size:.88rem">Carregando...</p></div>
-</div>
+<!--SSR_HERO_END--></div>
 
 <!-- ANÚNCIO TOPO -->
 <div class="ad-strip" id="ad-top" style="display:none">
@@ -294,6 +295,7 @@ footer a{color:var(--rust);text-decoration:none}
   <p>© 2026 <a href="/">BiblioClube</a> · Todos os livros são de domínio público · Leitura gratuita para todos</p>
 </footer>
 
+<!--SSR_DATA-->
 <script>
 const API = 'https://api.biblioclube.com.br';
 
@@ -316,10 +318,13 @@ async function init(){
   if(!slug){ mostrarErro('Livro não especificado'); return; }
 
   try{
-    const r = await fetch(`${API}/api/livros/${slug}`);
-    const d = await r.json();
-    if(!d.ok){ mostrarErro('Livro não encontrado'); return; }
-    const l = d.livro;
+    let l = window.__SSR_LIVRO__;
+    if(!l){
+      const r = await fetch(`${API}/api/livros/${slug}`);
+      const d = await r.json();
+      if(!d.ok){ mostrarErro('Livro não encontrado'); return; }
+      l = d.livro;
+    }
 
     // Meta tags SEO
     document.title = `${l.titulo} — ${l.autor} | BiblioClube`;
@@ -419,7 +424,7 @@ async function carregarRelacionados(cat, idAtual, slugAtual){
       const capaImg = l.capa_url ? `<img src="${l.capa_url}" style="width:100%;height:100%;object-fit:cover;border-radius:3px 7px 7px 3px">` : '';
       const titulo2 = esc(l.titulo);
       const autor2  = esc(l.autor);
-      return `<div class="rel-card" onclick="window.location.href='/livro.html?slug=${slug2}'">
+      return `<div class="rel-card" onclick="window.location.href='/livro?slug=${slug2}'">
         <div class="rel-capa" style="background:linear-gradient(160deg,${cor2},${cor2}cc)">
           ${capaImg}
           <div style="font-family:Georgia,serif;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;line-height:1.3">${titulo2}</div>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="pg-title">Categorias — BiblioClube</title>
 <meta name="description" id="pg-desc" content="Explore o acervo do BiblioClube por categoria">
+<!--SSR_META-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -74,14 +75,14 @@ footer a{color:var(--rust);text-decoration:none}
   </div>
 </header>
 
-<div id="cat-hero-wrap">
+<div id="cat-hero-wrap"><!--SSR_HERO_START-->
   <div class="loading">Carregando...</div>
-</div>
+<!--SSR_HERO_END--></div>
 
 <div class="livros-section">
-  <div class="livros-grid" id="livros-grid">
+  <div class="livros-grid" id="livros-grid"><!--SSR_GRID_START-->
     <div class="loading" style="grid-column:1/-1">Carregando livros...</div>
-  </div>
+  <!--SSR_GRID_END--></div>
 </div>
 
 <div class="outras-cats" id="outras-wrap" style="display:none">
@@ -95,6 +96,7 @@ footer a{color:var(--rust);text-decoration:none}
   <p>© 2026 <a href="/">BiblioClube</a> · Todos os livros são de domínio público</p>
 </footer>
 
+<!--SSR_DATA-->
 <script>
 const API = 'https://api.biblioclube.com.br';
 
@@ -118,7 +120,6 @@ function corCat(cat){ return CATS[cat]?.cor || '#1a1a1a'; }
 
 async function init(){
   const cat = getSlug();
-  if(!cat){ window.location.href='/'; return; }
   const info = CATS[cat] || {nome: cat, desc:'', cor:'#1a1a1a'};
 
   // SEO
@@ -127,9 +128,12 @@ async function init(){
   document.getElementById('pg-desc').content = info.desc;
 
   try{
-    const r = await fetch(`${API}/api/livros?cat=${cat}`);
-    const d = await r.json();
-    const livros = d.livros || [];
+    let livros = window.__SSR_CAT__;
+    if(!livros){
+      const r = await fetch(`${API}/api/livros?cat=${cat}`);
+      const d = await r.json();
+      livros = d.livros || [];
+    }
 
     // Hero
     document.getElementById('cat-hero-wrap').innerHTML = `
@@ -155,7 +159,7 @@ async function init(){
               <div style="font-family:Georgia,serif;font-size:.75rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;line-height:1.3">${esc(l.titulo)}</div>
              </div>`;
         return `
-          <div class="livro-card" onclick="window.location.href='/livro.html?slug=${l.slug||l.id}'">
+          <div class="livro-card" onclick="window.location.href='/livro?slug=${l.slug||l.id}'">
             <div class="livro-capa">${capaHtml}</div>
             <div class="livro-titulo">${esc(l.titulo)}</div>
             <div class="livro-autor">${esc(l.autor)}</div>
@@ -167,7 +171,7 @@ async function init(){
     const outras = Object.entries(CATS).filter(([k])=>k!==cat);
     document.getElementById('outras-wrap').style.display='block';
     document.getElementById('cats-grid').innerHTML = outras.map(([k,v])=>`
-      <a href="/categorias.html?cat=${k}" class="cat-pill-card">
+      <a href="/categorias?cat=${k}" class="cat-pill-card">
         <div class="cpn">${v.nome}</div>
         <div class="cpc">Ver livros →</div>
       </a>`).join('');
