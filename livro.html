@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pg-title">BiblioClube</title>
+<meta name="description" id="pg-desc" content="Leia gratuitamente no BiblioClube">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,400;1,700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Google AdSense — substitua ca-pub-6696233215166291 pelo seu ID -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6696233215166291" crossorigin="anonymous"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#faf8f3;--cream2:#f2ede3;--ink:#0f0e0b;--ink2:#2a2820;
+  --muted:#8a8070;--rust:#c45c2a;--border:#e0d8cc;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Syne',system-ui,sans-serif;
+}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.6}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,248,243,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+}
+.header-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;
+}
+.logo{
+  font-family:var(--serif);font-size:1.4rem;font-weight:700;
+  color:var(--ink);text-decoration:none;
+}
+.logo span{color:var(--rust)}
+.btn-header{
+  background:var(--ink);color:var(--cream);
+  font-size:.75rem;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;padding:.5rem 1.25rem;
+  border-radius:4px;text-decoration:none;transition:background .2s;
+}
+.btn-header:hover{background:var(--rust)}
+
+/* HERO DO LIVRO */
+.livro-hero{
+  background:var(--ink);
+  padding:5rem 2rem 4rem;
+  position:relative;overflow:hidden;
+}
+.livro-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 30% 50%,rgba(196,92,42,.12) 0%,transparent 60%);
+}
+.livro-hero-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:auto 1fr;
+  gap:3rem;align-items:start;
+  position:relative;z-index:1;
+}
+.livro-capa-wrap{flex-shrink:0}
+.livro-capa{
+  width:200px;height:290px;
+  border-radius:4px 12px 12px 4px;
+  object-fit:cover;
+  box-shadow:6px 12px 40px rgba(0,0,0,.5),inset -4px 0 10px rgba(0,0,0,.2);
+}
+.livro-capa-fallback{
+  width:200px;height:290px;
+  border-radius:4px 12px 12px 4px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:1.5rem;text-align:center;
+  box-shadow:6px 12px 40px rgba(0,0,0,.4);
+}
+.livro-info{padding-top:.5rem}
+.livro-categoria{
+  display:inline-block;font-size:.65rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--rust);margin-bottom:.75rem;
+}
+.livro-titulo{
+  font-family:var(--serif);font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;font-style:italic;
+  color:#fff8e6;line-height:1.1;margin-bottom:.5rem;
+}
+.livro-autor{
+  font-size:1rem;color:rgba(255,248,230,.6);
+  margin-bottom:1.5rem;letter-spacing:.5px;
+}
+.livro-meta{
+  display:flex;gap:1.5rem;flex-wrap:wrap;
+  margin-bottom:2rem;
+}
+.meta-item{text-align:center}
+.meta-n{
+  font-family:var(--serif);font-size:1.4rem;font-weight:700;
+  color:#fff8e6;line-height:1;
+}
+.meta-l{font-size:.65rem;color:rgba(255,248,230,.4);letter-spacing:1px;margin-top:.15rem}
+.livro-acoes{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-ler{
+  background:var(--rust);color:#fff;
+  font-family:var(--sans);font-size:.82rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:.9rem 2.5rem;border-radius:4px;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;
+}
+.btn-ler:hover{background:#a84820;transform:translateY(-2px);box-shadow:0 6px 20px rgba(196,92,42,.4)}
+.btn-salvar{
+  background:transparent;color:rgba(255,248,230,.7);
+  font-family:var(--sans);font-size:.82rem;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:.9rem 1.75rem;border-radius:4px;
+  text-decoration:none;border:1px solid rgba(255,248,230,.2);cursor:pointer;
+  transition:all .2s;
+}
+.btn-salvar:hover{border-color:rgba(255,248,230,.5);color:#fff8e6}
+
+/* CONTEÚDO */
+.livro-conteudo{max-width:1100px;margin:0 auto;padding:4rem 2rem;display:grid;grid-template-columns:1fr 320px;gap:3rem}
+.livro-sinopse-titulo{
+  font-family:var(--serif);font-size:1.8rem;font-weight:400;
+  font-style:italic;color:var(--ink);margin-bottom:1.25rem;
+}
+.livro-sinopse-texto{
+  font-family:var(--serif);font-size:1.05rem;
+  color:var(--ink2);line-height:1.9;font-weight:300;
+}
+.livro-detalhes{
+  background:var(--cream2);border:1px solid var(--border);
+  border-radius:8px;padding:1.5rem;
+  align-self:start;
+  position:sticky;top:80px;
+}
+.det-titulo{
+  font-size:.65rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:1rem;
+}
+.det-row{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:.6rem 0;border-bottom:1px solid var(--border);
+  font-size:.84rem;
+}
+.det-row:last-of-type{border-bottom:none}
+.det-label{color:var(--muted);font-weight:500}
+.det-val{color:var(--ink);font-weight:600;text-align:right;max-width:180px}
+.btn-ler-sidebar{
+  width:100%;margin-top:1.25rem;
+  background:var(--ink);color:var(--cream);
+  font-family:var(--sans);font-size:.78rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:.85rem;border-radius:4px;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:all .2s;display:block;text-align:center;
+}
+.btn-ler-sidebar:hover{background:var(--rust)}
+
+/* ANÚNCIO */
+.ad-strip{
+  background:var(--cream2);border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:1.5rem 2rem;text-align:center;
+}
+.ad-strip-inner{max-width:1100px;margin:0 auto}
+.ad-label{font-size:.6rem;color:var(--muted);letter-spacing:1px;margin-bottom:.5rem}
+
+/* LIVROS RELACIONADOS */
+.relacionados{padding:4rem 2rem;background:var(--cream2)}
+.rel-inner{max-width:1100px;margin:0 auto}
+.rel-titulo{
+  font-family:var(--serif);font-size:1.8rem;font-weight:400;
+  font-style:italic;color:var(--ink);margin-bottom:2rem;
+}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1.25rem}
+.rel-card{cursor:pointer;transition:transform .2s}
+.rel-card:hover{transform:translateY(-4px)}
+.rel-capa{
+  width:100%;aspect-ratio:2/3;border-radius:3px 8px 8px 3px;
+  display:flex;align-items:center;justify-content:center;
+  padding:.75rem;text-align:center;
+  box-shadow:2px 4px 12px rgba(0,0,0,.12);
+  margin-bottom:.6rem;
+}
+.rel-titulo-livro{font-family:var(--serif);font-size:.8rem;font-style:italic;color:var(--ink);line-height:1.3}
+.rel-autor-livro{font-size:.68rem;color:var(--muted);margin-top:.15rem}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,248,230,.4);padding:2rem;text-align:center;font-size:.78rem}
+footer a{color:var(--rust);text-decoration:none}
+
+/* LOADING/ERRO */
+.loading-page{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:60vh;gap:1rem;
+}
+.spinner{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--rust);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESPONSIVO */
+@media(max-width:800px){
+  .livro-hero-inner{grid-template-columns:1fr;gap:2rem}
+  .livro-capa,.livro-capa-fallback{width:150px;height:218px}
+  .livro-conteudo{grid-template-columns:1fr}
+  .livro-detalhes{position:static}
+  .rel-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:500px){
+  .livro-hero{padding:3rem 1.25rem 2.5rem}
+  .livro-conteudo{padding:2.5rem 1.25rem}
+  .rel-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">Biblio<span>Clube</span></a>
+    <a href="/#acervo" class="btn-header">← Acervo</a>
+  </div>
+</header>
+
+<!-- HERO DINÂMICO -->
+<div id="livro-hero-wrap">
+  <div class="loading-page"><div class="spinner"></div><p style="color:var(--muted);font-size:.88rem">Carregando...</p></div>
+</div>
+
+<!-- ANÚNCIO TOPO -->
+<div class="ad-strip" id="ad-top" style="display:none">
+  <div class="ad-strip-inner">
+    <div class="ad-label">Publicidade</div>
+    <!-- AdSense Banner 728x90 -->
+    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6696233215166291" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins> -->
+    <!-- <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    <div style="width:100%;max-width:728px;height:90px;background:var(--border);border-radius:4px;margin:0 auto;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Espaço para anúncio — 728×90</div>
+  </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div id="livro-conteudo-wrap" style="display:none">
+  <div class="livro-conteudo">
+    <div>
+      <h2 class="livro-sinopse-titulo">Sobre o livro</h2>
+      <p class="livro-sinopse-texto" id="pg-sinopse"></p>
+
+      <!-- AdSense Retângulo médio dentro do conteúdo -->
+      <div style="margin:2.5rem 0;text-align:center">
+        <div style="font-size:.6rem;color:var(--muted);letter-spacing:1px;margin-bottom:.4rem">Publicidade</div>
+        <!-- <ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-6696233215166291" data-ad-slot="XXXXXXXXXX"></ins> -->
+        <!-- <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+        <div style="width:336px;height:280px;background:var(--cream2);border:1px solid var(--border);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem;max-width:100%">Espaço para anúncio — 336×280</div>
+      </div>
+    </div>
+    <div>
+      <div class="livro-detalhes">
+        <div class="det-titulo">Informações</div>
+        <div class="det-row"><span class="det-label">Autor</span><span class="det-val" id="det-autor">—</span></div>
+        <div class="det-row"><span class="det-label">Ano</span><span class="det-val" id="det-ano">—</span></div>
+        <div class="det-row"><span class="det-label">Editora</span><span class="det-val" id="det-editora">—</span></div>
+        <div class="det-row"><span class="det-label">Categoria</span><span class="det-val" id="det-cat">—</span></div>
+        <div class="det-row"><span class="det-label">Páginas</span><span class="det-val" id="det-pags">—</span></div>
+        <div class="det-row"><span class="det-label">Disponível</span><span class="det-val" style="color:#2d6a40">✓ Gratuito</span></div>
+        <div id="btn-sidebar-wrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIVROS RELACIONADOS -->
+<div class="relacionados" id="relacionados-wrap" style="display:none">
+  <div class="rel-inner">
+    <h3 class="rel-titulo">Você também pode gostar</h3>
+    <div class="rel-grid" id="rel-grid"></div>
+  </div>
+</div>
+
+<!-- ANÚNCIO RODAPÉ -->
+<div class="ad-strip" id="ad-bottom" style="display:none">
+  <div class="ad-strip-inner">
+    <div class="ad-label">Publicidade</div>
+    <div style="width:100%;max-width:728px;height:90px;background:var(--border);border-radius:4px;margin:0 auto;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Espaço para anúncio — 728×90</div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <a href="/">BiblioClube</a> · Todos os livros são de domínio público · Leitura gratuita para todos</p>
+</footer>
+
+<script>
+const API = 'https://api.biblioclube.com.br';
+
+function getSlug(){
+  const p = new URLSearchParams(window.location.search);
+  return p.get('slug') || p.get('id') || '';
+}
+
+function corCat(cat){
+  const m={suspense:'#0a0a1a',classico:'#2d1a08',romance:'#2d0a1a',aventura:'#0a1a2d',drama:'#1a0a0a',filosofia:'#1a1a00',serie:'#1a0e00',manga:'#0a0a20',gibi:'#0a1a00'};
+  return m[cat]||'#1a1a1a';
+}
+function catLabel(c){
+  const m={classico:'Clássico',romance:'Romance',aventura:'Aventura',suspense:'Suspense',drama:'Drama',filosofia:'Filosofia',serie:'Série',manga:'Mangá',gibi:'HQ/Gibi'};
+  return m[c]||c;
+}
+
+async function init(){
+  const slug = getSlug();
+  if(!slug){ mostrarErro('Livro não especificado'); return; }
+
+  try{
+    const r = await fetch(`${API}/api/livros/${slug}`);
+    const d = await r.json();
+    if(!d.ok){ mostrarErro('Livro não encontrado'); return; }
+    const l = d.livro;
+
+    // Meta tags SEO
+    document.title = `${l.titulo} — ${l.autor} | BiblioClube`;
+    document.getElementById('pg-title').textContent = document.title;
+    document.getElementById('pg-desc').content = l.sinopse||`Leia ${l.titulo} gratuitamente no BiblioClube`;
+
+    // Hero
+    const cor = corCat(l.categoria);
+    const capaHtml = l.capa_url
+      ? `<img class="livro-capa" src="${l.capa_url}" alt="Capa">`
+      : fallbackCapa(cor, l);
+    const slugLivro = l.slug||l.id;
+    const temPdf = l.tem_pdf || (l.paginas > 0);
+    const leitorUrl = `/leitor.html?slug=${slugLivro}`;
+
+    document.getElementById('livro-hero-wrap').innerHTML = `
+      <div class="livro-hero">
+        <div class="livro-hero-inner">
+          <div class="livro-capa-wrap">${capaHtml}</div>
+          <div class="livro-info">
+            <span class="livro-categoria">${catLabel(l.categoria)}</span>
+            <h1 class="livro-titulo">${esc(l.titulo)}</h1>
+            <div class="livro-autor">${esc(l.autor)}</div>
+            <div class="livro-meta">
+              ${l.ano?`<div class="meta-item"><div class="meta-n">${esc(l.ano)}</div><div class="meta-l">Publicação</div></div>`:''}
+              ${l.paginas?`<div class="meta-item"><div class="meta-n">${l.paginas}</div><div class="meta-l">Páginas</div></div>`:''}
+              ${l.leituras>0?`<div class="meta-item"><div class="meta-n">${l.leituras}</div><div class="meta-l">Leituras</div></div>`:''}
+              <div class="meta-item"><div class="meta-n">${l.pago?'Pago':'Grátis'}</div><div class="meta-l">Acesso</div></div>
+            </div>
+            <div class="livro-acoes">
+              ${l.pago && l.link_afiliado
+                ? `<a href="${l.link_afiliado}" target="_blank" class="btn-ler" style="background:#b8860b">🛒 Comprar Ebook</a>`
+                : temPdf
+                  ? `<a href="${leitorUrl}" class="btn-ler" id="btn-ler-main">📖 Ler agora</a>`
+                  : `<span class="btn-ler" style="background:var(--muted);cursor:default;opacity:.7">⏳ Em breve</span>`
+              }
+              <button class="btn-salvar" onclick="salvarLista('${l.id}','${esc(l.titulo)}')">♡ Salvar</button>
+            </div>
+            ${l.serie?`<div style="margin-top:1.25rem;font-size:.75rem;color:rgba(255,248,230,.4);letter-spacing:1px">${esc(l.serie)}</div>`:''}
+          </div>
+        </div>
+      </div>`;
+
+    // Conteúdo
+    document.getElementById('pg-sinopse').textContent = l.sinopse||'Clique em "Ler agora" para começar a leitura.';
+    document.getElementById('det-autor').textContent = l.autor;
+    document.getElementById('det-ano').textContent = l.ano||'—';
+    document.getElementById('det-editora').textContent = l.editora||'Domínio público';
+    document.getElementById('det-cat').textContent = catLabel(l.categoria);
+    document.getElementById('det-pags').textContent = l.paginas ? `${l.paginas} seções` : '—';
+    // Botão sidebar dinâmico
+    const sidebar = document.getElementById('btn-sidebar-wrap');
+    if(sidebar){
+      if(l.pago && l.link_afiliado){
+        sidebar.innerHTML=`<a href="${l.link_afiliado}" target="_blank" class="btn-ler-sidebar" style="background:#b8860b">🛒 Comprar Ebook</a>`;
+      } else if(temPdf){
+        sidebar.innerHTML=`<a href="${leitorUrl}" class="btn-ler-sidebar">📖 Ler agora</a>`;
+      } else {
+        sidebar.innerHTML=`<span class="btn-ler-sidebar" style="background:var(--muted);cursor:default;opacity:.7;text-align:center;display:block">⏳ Em breve</span>`;
+      }
+    }
+    // Registrar leitura ao clicar
+    document.querySelectorAll('a[href="'+leitorUrl+'"]').forEach(a=>{
+      a.addEventListener('click',()=>{
+        fetch('https://api.biblioclube.com.br/api/livros/'+slugLivro+'/registrar_leitura',{method:'POST'}).catch(()=>{});
+      });
+    });
+
+    // Mostrar seções
+    document.getElementById('livro-conteudo-wrap').style.display='block';
+    document.getElementById('ad-top').style.display='block';
+    document.getElementById('ad-bottom').style.display='block';
+
+    // Livros relacionados
+    carregarRelacionados(l.categoria, l.id, slugLivro);
+
+  }catch(e){
+    console.error('[livro.html] Erro no init:', e);
+    mostrarErro('Erro ao carregar. Tente novamente. ('+e.message+')');
+  }
+}
+
+function fallbackCapa(cor, l){
+  return `<div class="livro-capa-fallback" style="background:linear-gradient(160deg,${cor},${cor}cc)"><div style="font-size:.82rem;font-weight:700;color:rgba(255,255,255,.9);line-height:1.3;text-align:center;font-family:Georgia,serif">${esc(l.titulo)}</div><div style="font-size:.62rem;color:rgba(255,255,255,.5);margin-top:.4rem">${esc(l.autor)}</div></div>`;
+}
+
+async function carregarRelacionados(cat, idAtual, slugAtual){
+  try{
+    const r = await fetch(`${API}/api/livros?cat=${cat}`);
+    const d = await r.json();
+    const outros = (d.livros||[]).filter(l=>l.id!==idAtual && (l.slug||l.id)!==slugAtual).slice(0,6);
+    if(!outros.length) return;
+    document.getElementById('relacionados-wrap').style.display='block';
+    document.getElementById('rel-grid').innerHTML = outros.map(l=>{
+      const cor2 = corCat(l.categoria);
+      const slug2 = l.slug||l.id;
+      const capaImg = l.capa_url ? `<img src="${l.capa_url}" style="width:100%;height:100%;object-fit:cover;border-radius:3px 7px 7px 3px">` : '';
+      const titulo2 = esc(l.titulo);
+      const autor2  = esc(l.autor);
+      return `<div class="rel-card" onclick="window.location.href='/livro.html?slug=${slug2}'">
+        <div class="rel-capa" style="background:linear-gradient(160deg,${cor2},${cor2}cc)">
+          ${capaImg}
+          <div style="font-family:Georgia,serif;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;line-height:1.3">${titulo2}</div>
+        </div>
+        <div class="rel-titulo-livro">${titulo2}</div>
+        <div class="rel-autor-livro">${autor2}</div>
+      </div>`;
+    }).join('');
+  }catch(e){}
+}
+
+function salvarLista(id, titulo){
+  let lista = JSON.parse(localStorage.getItem('bc_lista')||'[]');
+  if(!lista.includes(id)){
+    lista.push(id);
+    localStorage.setItem('bc_lista', JSON.stringify(lista));
+    alert(`"${titulo}" salvo na sua lista!`);
+  } else {
+    alert(`"${titulo}" já está na sua lista.`);
+  }
+}
+
+function mostrarErro(msg){
+  document.getElementById('livro-hero-wrap').innerHTML = `
+    <div class="loading-page">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--muted)">${msg}</p>
+      <a href="/" style="color:var(--rust);font-size:.85rem">← Voltar ao acervo</a>
+    </div>`;
+}
+
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+
+init();
+</script>
+</body>
+</html>

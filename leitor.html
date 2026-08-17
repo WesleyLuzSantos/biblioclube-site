@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title id="page-title">BiblioClube — Leitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#faf8f3;--ink:#1a1410;--ink2:#3d3428;
+  --muted:#8a8070;--border:#e0d8cc;
+  --ember:#c45c2a;--flame:#e07040;
+  --serif:'Lora',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --font-size:.88rem;--line-height:1.8;
+}
+.noturno{
+  --bg:#0e0c0a;--ink:#f0ead8;--ink2:#c8bfa8;
+  --muted:#6a6050;--border:#2a2520;
+}
+
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--serif);background:var(--bg);color:var(--ink);
+  transition:background .3s,color .3s;
+  display:flex;flex-direction:column;
+}
+
+/* ── TOPBAR ── */
+.topbar{
+  height:48px;flex-shrink:0;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.25rem;transition:background .3s,border-color .3s;
+  position:relative;z-index:10;
+}
+.tb-logo{
+  font-family:var(--serif);font-size:1rem;font-weight:600;
+  color:var(--ink);text-decoration:none;letter-spacing:-.3px;
+}
+.tb-logo span{color:var(--ember)}
+.tb-title{
+  position:absolute;left:50%;transform:translateX(-50%);
+  font-size:.78rem;color:var(--muted);font-style:italic;
+  max-width:300px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;
+}
+.tb-actions{display:flex;align-items:center;gap:.5rem}
+.tb-btn{
+  width:32px;height:32px;border-radius:6px;border:1px solid var(--border);
+  background:transparent;color:var(--ink2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;font-size:.78rem;font-family:var(--sans);font-weight:600;
+}
+.tb-btn:hover{border-color:var(--ember);color:var(--ember)}
+.tb-btn.active{background:var(--ember);border-color:var(--ember);color:#fff}
+/* Modal ir para página */
+.pag-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;display:none}
+.pag-modal.open{display:flex}
+.pag-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;width:260px;max-width:90vw}
+.pag-box h3{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--ink);margin-bottom:.75rem}
+.pag-box input[type=number]{width:100%;padding:.5rem .75rem;border:1px solid var(--border);border-radius:6px;font-family:var(--sans);font-size:.9rem;background:var(--bg);color:var(--ink);margin-bottom:.75rem;outline:none}
+.pag-row{display:flex;gap:.5rem}
+.pag-row button{flex:1;padding:.5rem;border-radius:6px;font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;border:none;transition:background .2s}
+.pag-ok{background:var(--ember);color:#fff}.pag-ok:hover{background:#a84820}
+.pag-cancel{background:var(--border);color:var(--ink)}
+
+/* ── PAINEL DE CONTROLES ── */
+.painel{
+  display:none;position:absolute;top:52px;right:1rem;z-index:100;
+  background:var(--bg);border:1px solid var(--border);border-radius:8px;
+  padding:1rem;width:240px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.painel.open{display:block}
+.painel-label{font-family:var(--sans);font-size:.62rem;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.painel-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem}
+.painel-row input[type=range]{flex:1;accent-color:var(--ember)}
+.painel-row span{font-size:.72rem;color:var(--muted);min-width:24px;text-align:right}
+.switch{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.switch-label{font-size:.82rem;color:var(--ink2)}
+.switch input{accent-color:var(--ember);width:16px;height:16px}
+
+/* ── LIVRO ── */
+.livro-wrap{
+  flex:1;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;padding:1.5rem;
+  perspective:1400px;
+}
+.livro{
+  width:100%;max-width:680px;height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+}
+
+/* PÁGINA — Transição Modelo 3: Virar página 3D */
+#livro{
+  perspective:1400px;
+}
+.pagina{
+  position:absolute;inset:0;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  border:1px solid var(--border);
+  border-radius:4px 12px 12px 4px;
+  box-shadow:3px 4px 20px rgba(0,0,0,.08),inset -3px 0 8px rgba(0,0,0,.04);
+  overflow:hidden;
+  backface-visibility:hidden;
+  transform-origin:left center;
+  transition:transform .55s cubic-bezier(.4,0,.2,1),box-shadow .55s ease;
+}
+/* Sombra dinâmica ao virar */
+.pagina::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:60px;
+  background:linear-gradient(to right,transparent,rgba(0,0,0,.0));
+  pointer-events:none;transition:background .55s ease;
+}
+/* Saindo para frente (próxima página): dobra para a esquerda */
+.pagina.saindo-esq{
+  transform:rotateY(-110deg);
+  transform-origin:left center;
+  box-shadow:-8px 4px 30px rgba(0,0,0,.2);
+  pointer-events:none;
+  z-index:3;
+}
+.pagina.saindo-esq::after{
+  background:linear-gradient(to right,transparent,rgba(0,0,0,.15));
+}
+/* Saindo para trás (página anterior): dobra para a direita */
+.pagina.saindo-dir{
+  transform:rotateY(110deg);
+  transform-origin:right center;
+  box-shadow:8px 4px 30px rgba(0,0,0,.2);
+  pointer-events:none;
+  z-index:3;
+}
+/* Entrando (nova página): vem do lado e abre */
+.pagina.entrando-esq{
+  transform:rotateY(8deg);
+  transform-origin:left center;
+  z-index:2;
+}
+.pagina.entrando-dir{
+  transform:rotateY(-8deg);
+  transform-origin:right center;
+  z-index:2;
+}
+
+/* CAPA */
+.capa-page{
+  position:relative;overflow:hidden;
+  background:var(--ink);
+  height:100%;
+  min-height:0;
+}
+/* Imagem de fundo em tela cheia */
+.capa-bg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  z-index:1;
+}
+/* Gradiente por cima da imagem */
+.capa-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.3) 55%,rgba(0,0,0,.15) 100%);
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:2rem 2rem 2.5rem;
+}
+/* Sem imagem — fallback */
+.capa-sem-img .capa-overlay{
+  background:linear-gradient(160deg,#1a0e06 0%,#3d2010 100%);
+  justify-content:center;align-items:center;text-align:center;
+  padding:2rem;
+}
+.capa-categoria{
+  font-size:.6rem;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:var(--ember);
+  margin-bottom:.5rem;font-family:var(--sans);
+}
+.capa-titulo{
+  font-family:var(--serif);font-size:clamp(1.6rem,5vw,2.4rem);
+  font-weight:700;font-style:italic;
+  color:#fff8e6;line-height:1.15;margin-bottom:.4rem;
+}
+.capa-autor{font-size:.88rem;color:rgba(255,248,230,.65);letter-spacing:.5px}
+.capa-ano{font-size:.72rem;color:rgba(255,248,230,.4);margin-top:.2rem;font-family:var(--sans)}
+/* Botão sutil */
+.capa-start{
+  margin-top:1.5rem;
+  font-family:var(--sans);font-size:.68rem;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:.5rem 1.25rem;border-radius:3px;
+  border:1px solid rgba(255,248,230,.3);
+  color:rgba(255,248,230,.6);
+  background:rgba(255,255,255,.05);
+  cursor:pointer;transition:all .25s;
+  align-self:flex-start;
+  backdrop-filter:blur(4px);
+}
+.capa-start:hover{border-color:rgba(255,248,230,.7);color:#fff8e6;background:rgba(255,255,255,.1)}
+
+/* FOLHA DE ROSTO */
+.rosto-page{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:4rem 3rem;text-align:center;
+}
+.rosto-titulo{font-family:var(--serif);font-size:2.2rem;font-weight:300;
+  font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:1rem}
+.rosto-autor{font-size:1rem;color:var(--muted)}
+.rosto-linha{width:40px;height:1px;background:var(--ember);margin:1.5rem auto}
+.rosto-editora{font-size:.75rem;color:var(--muted);letter-spacing:1px}
+
+/* TEXTO */
+.texto-page{
+  padding:2rem 2.25rem 1rem;
+  overflow-y:auto;overflow-x:hidden;
+  position:relative;
+  height:100%;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  display:flex;flex-direction:column;
+}
+/* Esconder scrollbar mas manter funcional */
+.texto-page::-webkit-scrollbar{width:3px}
+.texto-page::-webkit-scrollbar-track{background:transparent}
+.texto-page::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.texto-page .num-pagina{
+  font-size:.65rem;color:var(--muted);font-style:italic;
+  font-family:var(--sans);
+  transition:opacity .3s;
+  flex-shrink:0;padding-top:.5rem;
+}
+.texto-page .num-pagina.esq{text-align:left}
+.texto-page .num-pagina.dir{text-align:right}
+.texto-corpo{
+  font-size:var(--font-size);line-height:var(--line-height);
+  color:var(--ink);
+  font-weight:400;
+  flex:1;
+}
+.texto-corpo p{margin-bottom:.85em}
+
+
+/* CONTRACAPA */
+.contra-page{
+  display:flex;flex-direction:column;
+  padding:3rem 2.5rem;
+  background:#1a1410;color:#f0ead8;
+  justify-content:space-between;
+}
+.noturno .contra-page{background:#080706;color:#f0ead8}
+.contra-titulo{font-family:var(--serif);font-size:1.4rem;font-weight:300;
+  font-style:italic;margin-bottom:1.5rem;color:rgba(240,234,216,.95)}
+.contra-sinopse{font-size:.88rem;line-height:1.8;color:rgba(240,234,216,.75);
+  font-style:italic;flex:1}
+.contra-bottom{margin-top:1.5rem;border-top:1px solid rgba(255,255,255,.15);padding-top:1rem}
+.contra-autor{font-size:.75rem;letter-spacing:1px;color:rgba(240,234,216,.55);
+  text-transform:uppercase;font-family:var(--sans)}
+.contra-logo{font-family:var(--serif);font-size:1rem;color:rgba(250,248,243,.3)}
+.contra-logo b{color:var(--ember)}
+
+/* ── NAVEGAÇÃO ── */
+.nav-area{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.5rem;flex-shrink:0;
+  border-top:1px solid var(--border);
+  background:var(--bg);transition:background .3s,border-color .3s;
+}
+.nav-btn{
+  width:40px;height:40px;border-radius:6px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--ink2);cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.nav-btn:hover:not(:disabled){border-color:var(--ember);color:var(--ember)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.nav-center{display:flex;flex-direction:column;align-items:center;gap:.2rem}
+.nav-prog{width:200px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.nav-fill{height:100%;background:var(--ember);border-radius:2px;transition:width .3s}
+.nav-info{font-family:var(--sans);font-size:.62rem;color:var(--muted);letter-spacing:.5px}
+
+/* SWIPE */
+.livro-wrap{touch-action:pan-y}
+
+/* LOADING */
+.loading{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;gap:1rem;
+}
+.loading-spinner{
+  width:32px;height:32px;border-radius:50%;
+  border:2px solid var(--border);border-top-color:var(--ember);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-style:italic;color:var(--muted);font-size:.88rem}
+
+/* ERRO */
+.erro{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;gap:1rem;text-align:center;padding:2rem;
+}
+.erro h2{font-family:var(--serif);font-size:1.5rem;color:var(--ink)}
+.erro p{font-size:.85rem;color:var(--muted)}
+.erro a{color:var(--ember);font-size:.85rem}
+
+@media(max-width:600px){
+  .livro-wrap{padding:.75rem}
+  .texto-page{padding:1.5rem 1.5rem}
+  :root{--font-size:.95rem;--line-height:1.85}
+  .tb-title{display:none}
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6696233215166291" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- Modal ir para página -->
+<div class="pag-modal" id="modal-pag">
+  <div class="pag-box">
+    <h3>Ir para página</h3>
+    <input type="number" id="input-pag" min="1" placeholder="Número da página">
+    <div class="pag-row">
+      <button class="pag-cancel" onclick="fecharModalPag()">Cancelar</button>
+      <button class="pag-ok" onclick="confirmarPag()">Ir</button>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <a href="/" class="tb-logo">Biblio<span>Clube</span></a>
+  <div class="tb-title" id="tb-titulo">Carregando...</div>
+  <div class="tb-actions">
+    <button class="tb-btn" onclick="irParaPrimeira()" title="Reiniciar leitura">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M7 2a5 5 0 1 0 4.33 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M11 1v3.5H7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="tb-btn" onclick="abrirModalPag()" title="Ir para página">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="1" width="10" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 5h4M5 8h4M5 11h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="tb-btn" id="btn-bookmark" onclick="salvarMarcaPagina()" title="Marca-página">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 1h10v12l-5-3-5 3V1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="tb-btn" id="btn-fullscreen" onclick="toggleTelaCheia()" title="Tela cheia" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 4V1h3M10 1h3v3M13 10v3h-3M4 13H1v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <a href="/#acervo" class="tb-btn" title="Voltar ao acervo" style="text-decoration:none">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 7h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </a>
+    <button class="tb-btn" id="btn-config" onclick="togglePainel()" title="Configurações">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 1v1M7 12v1M1 7h1M12 7h1M2.9 2.9l.7.7M10.4 10.4l.7.7M2.9 11.1l.7-.7M10.4 3.6l.7-.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Painel de configurações -->
+<div class="painel" id="painel-config">
+  <div class="painel-label">Tamanho do texto</div>
+  <div class="painel-row">
+    <span style="font-size:.7rem">A</span>
+    <input type="range" min="14" max="22" value="14" id="slider-fonte" oninput="ajustarFonte(this.value)">
+    <span style="font-size:.9rem">A</span>
+  </div>
+  <div class="painel-label">Espaçamento</div>
+  <div class="painel-row">
+    <input type="range" min="160" max="220" value="160" id="slider-linha" oninput="ajustarLinha(this.value)">
+    <span id="val-linha">1.60</span>
+  </div>
+  <div class="switch">
+    <span class="switch-label">Modo noturno</span>
+    <input type="checkbox" id="toggle-noturno" onchange="toggleNoturno(this.checked)">
+  </div>
+</div>
+
+<div class="livro-wrap" id="livro-wrap">
+  <div class="livro" id="livro">
+    <div class="pagina">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Carregando livro...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-area">
+  <button class="nav-btn" id="btn-prev" onclick="paginaAnterior()" disabled>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="nav-center">
+    <div class="nav-prog"><div class="nav-fill" id="nav-fill" style="width:0%"></div></div>
+    <div class="nav-info" id="nav-info">—</div>
+  </div>
+  <button class="nav-btn" id="btn-next" onclick="proximaPagina()">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+const API = 'https://api.biblioclube.com.br';
+
+// ── ESTADO ────────────────────────────────────────────────
+let LIVRO = null;
+let PAGINAS = [];       // [{num, texto}]
+let PAGINA_ATUAL = 0;   // 0=capa, 1=folha rosto, 2..N-1=texto, N=contracapa
+let TOTAL_PAGINAS = 0;
+let TRANSITANDO = false;
+
+// ── SLUG DA URL ───────────────────────────────────────────
+function getSlug(){
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug') || params.get('id') || '';
+  console.log('[leitor] slug detectado:', slug, '| url:', window.location.href);
+  return slug;
+}
+
+// ── INIT ──────────────────────────────────────────────────
+async function init(){
+  const slug = getSlug();
+  if(!slug){ mostrarErro('Livro não especificado'); return; }
+
+  try{
+    // Buscar metadados
+    const r = await fetch(`${API}/api/livros/${slug}`);
+    const d = await r.json();
+    if(!d.ok){ mostrarErro('Livro não encontrado'); return; }
+    LIVRO = d.livro;
+
+    // Buscar páginas
+    const r2 = await fetch(`${API}/api/livros/${slug}/paginas`);
+    const d2 = await r2.json();
+    if(!d2.ok || !d2.paginas.length){ mostrarErro('Páginas não disponíveis ainda'); return; }
+    PAGINAS = d2.paginas;
+    // Reconstruir texto completo para recálculo dinâmico
+    window._textoCompleto = PAGINAS.map(p=>p.texto).join('\n\n');
+
+    // Páginas já vêm prontas da API
+
+    // Total: capa + rosto + páginas de texto + contracapa
+    TOTAL_PAGINAS = 2 + PAGINAS.length + 1;
+
+    // Atualizar título
+    document.title = `${LIVRO.titulo} — BiblioClube`;
+    document.getElementById('tb-titulo').textContent = LIVRO.titulo;
+    document.getElementById('page-title').textContent = `${LIVRO.titulo} — BiblioClube`;
+
+    // Restaurar marca-página
+    const saved = localStorage.getItem(`bc_pagina_${slug}`);
+    PAGINA_ATUAL = saved ? parseInt(saved) : 0;
+
+    // Aplicar preferências salvas
+    const prefs = JSON.parse(localStorage.getItem('bc_leitor_prefs')||'{}');
+    if(prefs.fonte){ document.getElementById('slider-fonte').value=prefs.fonte; ajustarFonte(prefs.fonte); }
+    if(prefs.linha){ document.getElementById('slider-linha').value=prefs.linha; ajustarLinha(prefs.linha); }
+    else { ajustarLinha(160); } // padrão 1.60
+    // Modo claro é padrão — noturno só se salvo explicitamente
+    if(prefs.noturno===true){ document.body.classList.add('noturno'); document.getElementById('toggle-noturno').checked=true; }
+
+    renderPagina();
+    initSwipe();
+  }catch(e){
+    console.error('[leitor.html] Erro no init:', e);
+    mostrarErro('Erro ao carregar o livro. Tente novamente. ('+e.message+')');
+  }
+}
+
+// ── RENDER ────────────────────────────────────────────────
+function renderPagina(direcao=''){
+  const livro = document.getElementById('livro');
+  const velha = livro.querySelector('.pagina');
+
+  // Criar nova página
+  const pag = document.createElement('div');
+  pag.className = 'pagina';
+
+  if(PAGINA_ATUAL === 0){
+    pag.innerHTML = renderCapa();
+  } else if(PAGINA_ATUAL === 1){
+    pag.innerHTML = renderRosto();
+  } else if(PAGINA_ATUAL === TOTAL_PAGINAS - 1){
+    pag.innerHTML = renderContracapa();
+  } else {
+    const idx = PAGINA_ATUAL - 2;
+    pag.innerHTML = renderTexto(PAGINAS[idx], PAGINA_ATUAL - 1);
+  }
+
+  if(!direcao || !velha){
+    // Sem animação
+    if(velha) velha.remove();
+    livro.appendChild(pag);
+    atualizarNav();
+    salvarProgresso();
+    return;
+  }
+
+  const ehFrente = direcao === 'frente';
+
+  // Nova página começa levemente dobrada atrás
+  pag.classList.add(ehFrente ? 'entrando-esq' : 'entrando-dir');
+  pag.style.zIndex = '2';
+  livro.appendChild(pag);
+
+  // Forçar reflow
+  void pag.offsetWidth;
+
+  // Velha dobra para fora
+  velha.style.zIndex = '3';
+  velha.classList.add(ehFrente ? 'saindo-esq' : 'saindo-dir');
+
+  // Nova página abre suavemente
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      pag.style.transition = 'transform .55s cubic-bezier(.4,0,.2,1)';
+      pag.classList.remove('entrando-esq','entrando-dir');
+    });
+  });
+
+  setTimeout(()=>{
+    if(velha.parentNode) velha.remove();
+    pag.style.transition = '';
+    pag.style.zIndex = '';
+    atualizarNav();
+    salvarProgresso();
+  }, 590);
+}
+
+
+function renderCapa(){
+  const temImg = !!LIVRO.capa_url;
+  const bgImg = temImg ? `<img class="capa-bg" src="${LIVRO.capa_url}" alt="Capa">` : '';
+  const cat = LIVRO.categoria ? `<div class="capa-categoria">${esc(LIVRO.categoria)}</div>` : '';
+  const ano = LIVRO.ano ? `<div class="capa-ano">${esc(LIVRO.ano)}</div>` : '';
+  return `
+    <div class="capa-page${temImg ? '' : ' capa-sem-img'}">
+      ${bgImg}
+      <div class="capa-overlay">
+        ${cat}
+        <div class="capa-titulo">${esc(LIVRO.titulo)}</div>
+        <div class="capa-autor">${esc(LIVRO.autor)}</div>
+        ${ano}
+        <button class="capa-start" onclick="proximaPagina()">Começar a leitura →</button>
+      </div>
+    </div>`;
+}
+
+function renderRosto(){
+  return `
+    <div class="rosto-page">
+      <div class="rosto-titulo">${esc(LIVRO.titulo)}</div>
+      <div class="rosto-autor">${esc(LIVRO.autor)}</div>
+      <div class="rosto-linha"></div>
+      ${LIVRO.editora?`<div class="rosto-editora">${esc(LIVRO.editora)}</div>`:''}
+      ${LIVRO.ano?`<div class="rosto-editora" style="margin-top:.25rem">${esc(LIVRO.ano)}</div>`:''}
+    </div>`;
+}
+
+function renderTexto(pagina, numDisplay){
+  // Tratar dupla quebra como bloco e quebra simples como <br>
+  const blocos = pagina.texto.split('\n\n').filter(p=>p.trim());
+  const html = blocos.map(bloco=>{
+    const linhas = esc(bloco.trim()).replace(/\n/g,'<br>');
+    return `<p>${linhas}</p>`;
+  }).join('');
+  const isImpar = numDisplay % 2 !== 0;
+  return `
+    <div class="texto-page">
+      <div class="texto-corpo">${html}</div>
+      <span class="num-pagina ${isImpar?'esq':'dir'}">${numDisplay}</span>
+    </div>`;
+}
+
+function renderContracapa(){
+  return `
+    <div class="contra-page">
+      <div>
+        <div class="contra-titulo">${esc(LIVRO.titulo)}</div>
+        <div class="contra-sinopse">${esc(LIVRO.sinopse || 'Uma obra clássica da literatura mundial.')}</div>
+      </div>
+      <div class="contra-bottom">
+        <div class="contra-autor">${esc(LIVRO.autor)}${LIVRO.ano?' · '+esc(LIVRO.ano):''}</div>
+        <div class="contra-logo" style="margin-top:.5rem">Biblio<b>Clube</b></div>
+      </div>
+    </div>`;
+}
+
+// ── NAVEGAÇÃO ─────────────────────────────────────────────
+function proximaPagina(){
+  if(TRANSITANDO || PAGINA_ATUAL >= TOTAL_PAGINAS-1) return;
+  TRANSITANDO = true;
+  PAGINA_ATUAL++;
+  renderPagina('frente');
+  setTimeout(()=>TRANSITANDO=false, 400);
+}
+
+function paginaAnterior(){
+  if(TRANSITANDO || PAGINA_ATUAL <= 0) return;
+  TRANSITANDO = true;
+  PAGINA_ATUAL--;
+  renderPagina('volta');
+  setTimeout(()=>TRANSITANDO=false, 400);
+}
+
+function atualizarNav(){
+  const prev = document.getElementById('btn-prev');
+  const next = document.getElementById('btn-next');
+  const fill = document.getElementById('nav-fill');
+  const info = document.getElementById('nav-info');
+
+  prev.disabled = PAGINA_ATUAL <= 0;
+  next.disabled = PAGINA_ATUAL >= TOTAL_PAGINAS-1;
+
+  const pct = TOTAL_PAGINAS > 1 ? (PAGINA_ATUAL/(TOTAL_PAGINAS-1))*100 : 0;
+  fill.style.width = pct+'%';
+
+  if(PAGINA_ATUAL === 0) info.textContent = 'Capa';
+  else if(PAGINA_ATUAL === 1) info.textContent = 'Folha de rosto';
+  else if(PAGINA_ATUAL === TOTAL_PAGINAS-1) info.textContent = 'Fim';
+  else info.textContent = `Página ${PAGINA_ATUAL-1} de ${PAGINAS.length}`;
+}
+
+// ── MARCA-PÁGINA ──────────────────────────────────────────
+function salvarProgresso(){
+  const slug = getSlug();
+  localStorage.setItem(`bc_pagina_${slug}`, PAGINA_ATUAL);
+}
+
+function salvarMarcaPagina(){
+  salvarProgresso();
+  const btn = document.getElementById('btn-bookmark');
+  btn.classList.add('active');
+  setTimeout(()=>btn.classList.remove('active'), 1500);
+}
+
+// ── SWIPE ─────────────────────────────────────────────────
+function initSwipe(){
+  let startX=0, startY=0;
+  const wrap = document.getElementById('livro-wrap');
+  wrap.addEventListener('touchstart', e=>{startX=e.touches[0].clientX;startY=e.touches[0].clientY;},{passive:true});
+  wrap.addEventListener('touchend', e=>{
+    const dx=e.changedTouches[0].clientX-startX;
+    const dy=e.changedTouches[0].clientY-startY;
+    if(Math.abs(dx)>Math.abs(dy)*1.5 && Math.abs(dx)>40){
+      if(dx<0) proximaPagina(); else paginaAnterior();
+    }
+  });
+}
+
+// ── TECLADO ───────────────────────────────────────────────
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ') proximaPagina();
+  if(e.key==='ArrowLeft'||e.key==='PageUp') paginaAnterior();
+});
+
+// ── CONFIGURAÇÕES ─────────────────────────────────────────
+function togglePainel(){
+  document.getElementById('painel-config').classList.toggle('open');
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#painel-config')&&!e.target.closest('#btn-config')){
+    document.getElementById('painel-config').classList.remove('open');
+  }
+});
+
+let _numTimer=null;
+function esconderNumPagina(){
+  document.querySelectorAll('.num-pagina').forEach(el=>el.style.opacity='0');
+  clearTimeout(_numTimer);
+  _numTimer=setTimeout(()=>{
+    document.querySelectorAll('.num-pagina').forEach(el=>el.style.opacity='1');
+  }, 2000);
+}
+function ajustarFonte(v){
+  document.documentElement.style.setProperty('--font-size', v+'px');
+  salvarPrefs();
+  recalcularPaginas();
+  esconderNumPagina();
+}
+function ajustarLinha(v){
+  const val=(v/100).toFixed(2);
+  document.documentElement.style.setProperty('--line-height', val);
+  document.getElementById('val-linha').textContent=val;
+  salvarPrefs();
+  recalcularPaginas();
+  esconderNumPagina();
+}
+
+function recalcularPaginas(){
+  // Com scroll dentro da página não precisa recalcular
+  // Só rola para o topo ao mudar fonte
+  const pag = document.querySelector('.texto-page');
+  if(pag) pag.scrollTop = 0;
+}
+
+function paginarTexto(texto, charsPorPagina){
+  const paragrafos = texto.split('\n\n').filter(p=>p.trim());
+  const paginas = [];
+  let paginaAtual = '';
+  for(const par of paragrafos){
+    if(paginaAtual.length + par.length + 2 > charsPorPagina && paginaAtual){
+      paginas.push(paginaAtual.trim());
+      paginaAtual = par;
+    } else {
+      paginaAtual += (paginaAtual ? '\n\n' : '') + par;
+    }
+  }
+  if(paginaAtual.trim()) paginas.push(paginaAtual.trim());
+  return paginas.map((p,i)=>({num:i+1, texto:p}));
+}
+function toggleNoturno(on){
+  document.body.classList.toggle('noturno', on);
+  salvarPrefs();
+}
+function salvarPrefs(){
+  localStorage.setItem('bc_leitor_prefs', JSON.stringify({
+    fonte: document.getElementById('slider-fonte').value,
+    linha: document.getElementById('slider-linha').value,
+    noturno: document.getElementById('toggle-noturno').checked,
+  }));
+}
+
+// ── UTILS ─────────────────────────────────────────────────
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+function mostrarErro(msg){
+  document.getElementById('livro').innerHTML=`
+    <div class="pagina"><div class="erro">
+      <h2>Ops!</h2><p>${msg}</p>
+      <a href="/">← Voltar ao acervo</a>
+    </div></div>`;
+  document.getElementById('nav-info').textContent='—';
+}
+
+// ── TELA CHEIA ───────────────────────────────────────────
+function entrarTelaCheia(){
+  const el = document.documentElement;
+  try{
+    const fn = el.requestFullscreen || el.webkitRequestFullscreen ||
+               el.mozRequestFullScreen || el.msRequestFullscreen;
+    if(fn) fn.call(el).catch(()=>{});
+  }catch(e){}
+}
+function sairTelaCheia(){
+  try{
+    if(document.exitFullscreen) document.exitFullscreen();
+    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }catch(e){}
+}
+function isFullscreen(){
+  return !!(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement);
+}
+function toggleTelaCheia(){
+  if(isFullscreen()) sairTelaCheia(); else entrarTelaCheia();
+  atualizarBtnFullscreen();
+}
+function atualizarBtnFullscreen(){
+  const btn = document.getElementById('btn-fullscreen');
+  if(!btn) return;
+  const cheia = isFullscreen();
+  // Ícone muda: expandir ↔ comprimir
+  btn.innerHTML = cheia
+    ? `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1H1v3M10 1h3v3M13 10v3h-3M4 13H1v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+    : `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 4V1h3M10 1h3v3M13 10v3h-3M4 13H1v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  btn.classList.toggle('active', cheia);
+}
+// Atualizar ícone quando o usuário sai do fullscreen pelo ESC
+document.addEventListener('fullscreenchange', atualizarBtnFullscreen);
+document.addEventListener('webkitfullscreenchange', atualizarBtnFullscreen);
+// NÃO tentar fullscreen automático — só funciona via clique do usuário
+
+// Mostrar botao fullscreen apenas em desktop
+if(!('ontouchstart' in window) && window.innerWidth > 768){
+  const btn = document.getElementById('btn-fullscreen');
+  if(btn) btn.style.display = 'flex';
+}
+
+// ── NAVEGAÇÃO EXTRA ───────────────────────────────────────
+function irParaPrimeira(){
+  PAGINA_ATUAL = 0;
+  renderPagina();
+  atualizarNav();
+  // Limpar marca-página
+  const slug = getSlug();
+  if(slug) localStorage.removeItem('bc_pagina_'+slug);
+}
+
+function abrirModalPag(){
+  const modal = document.getElementById('modal-pag');
+  const input = document.getElementById('input-pag');
+  if(!modal) return;
+  input.value = '';
+  input.max = TOTAL_PAGINAS;
+  input.placeholder = `1 a ${TOTAL_PAGINAS}`;
+  modal.classList.add('open');
+  setTimeout(()=>input.focus(), 100);
+}
+
+function fecharModalPag(){
+  document.getElementById('modal-pag').classList.remove('open');
+}
+
+function confirmarPag(){
+  const val = parseInt(document.getElementById('input-pag').value);
+  if(isNaN(val) || val < 1 || val > TOTAL_PAGINAS){
+    document.getElementById('input-pag').style.borderColor = 'var(--ember)';
+    return;
+  }
+  PAGINA_ATUAL = val - 1; // 0-indexed: página 1 = índice 0
+  renderPagina();
+  atualizarNav();
+  salvarMarcaPagina();
+  fecharModalPag();
+}
+
+// Fechar modal com ESC
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') fecharModalPag();
+  if(e.key==='Enter' && document.getElementById('modal-pag').classList.contains('open')) confirmarPag();
+});
+
+// ── START ─────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

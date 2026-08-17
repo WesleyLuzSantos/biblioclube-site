@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pg-title">Categorias — BiblioClube</title>
+<meta name="description" id="pg-desc" content="Explore o acervo do BiblioClube por categoria">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6696233215166291" crossorigin="anonymous"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#faf8f3;--cream2:#f2ede3;--ink:#0f0e0b;--ink2:#2a2820;
+  --muted:#8a8070;--rust:#c45c2a;--border:#e0d8cc;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Syne',system-ui,sans-serif;
+}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.6}
+header{position:sticky;top:0;z-index:100;background:rgba(250,248,243,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:var(--serif);font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
+.logo span{color:var(--rust)}
+.btn-back{background:transparent;color:var(--ink2);font-size:.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.5rem 1rem;border-radius:4px;text-decoration:none;border:1px solid var(--border);transition:all .2s}
+.btn-back:hover{border-color:var(--ink);color:var(--ink)}
+
+/* HERO */
+.cat-hero{padding:4rem 2rem 3rem;text-align:center;border-bottom:1px solid var(--border)}
+.cat-hero-inner{max-width:600px;margin:0 auto}
+.cat-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rust);margin-bottom:.75rem}
+.cat-nome{font-family:var(--serif);font-size:clamp(2.5rem,6vw,4rem);font-weight:700;font-style:italic;color:var(--ink);margin-bottom:.5rem}
+.cat-desc{font-size:1rem;color:var(--muted);line-height:1.7}
+.cat-count{display:inline-block;margin-top:1rem;background:var(--cream2);border:1px solid var(--border);border-radius:20px;padding:.35rem 1rem;font-size:.78rem;font-weight:600;color:var(--muted)}
+
+/* GRID DE LIVROS */
+.livros-section{max-width:1100px;margin:0 auto;padding:3rem 2rem}
+.livros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1.5rem}
+.livro-card{cursor:pointer;transition:transform .2s}
+.livro-card:hover{transform:translateY(-5px)}
+.livro-capa{width:100%;aspect-ratio:2/3;border-radius:3px 10px 10px 3px;overflow:hidden;box-shadow:3px 6px 20px rgba(0,0,0,.12),inset -3px 0 6px rgba(0,0,0,.06);margin-bottom:.7rem;position:relative}
+.livro-capa img{width:100%;height:100%;object-fit:cover}
+.livro-capa-fallback{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.75rem;text-align:center}
+.livro-titulo{font-family:var(--serif);font-size:.84rem;font-weight:600;font-style:italic;color:var(--ink);line-height:1.3;margin-bottom:.2rem}
+.livro-autor{font-size:.7rem;color:var(--muted)}
+
+/* OUTRAS CATEGORIAS */
+.outras-cats{background:var(--cream2);border-top:1px solid var(--border);padding:3rem 2rem}
+.outras-inner{max-width:1100px;margin:0 auto}
+.outras-titulo{font-family:var(--serif);font-size:1.6rem;font-style:italic;color:var(--ink);margin-bottom:1.5rem}
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+.cat-pill-card{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:1.25rem;cursor:pointer;transition:all .2s;text-decoration:none;display:block}
+.cat-pill-card:hover{border-color:var(--rust);transform:translateY(-3px)}
+.cpn{font-family:var(--serif);font-size:1.1rem;font-style:italic;font-weight:700;color:var(--ink);margin-bottom:.2rem}
+.cpc{font-size:.72rem;color:var(--muted);letter-spacing:.5px}
+
+/* LOADING */
+.loading{text-align:center;padding:4rem;color:var(--muted);font-style:italic;font-family:var(--serif);font-size:1.1rem}
+
+footer{background:var(--ink);color:rgba(255,248,230,.4);padding:2rem;text-align:center;font-size:.78rem}
+footer a{color:var(--rust);text-decoration:none}
+
+@media(max-width:600px){
+  .livros-grid{grid-template-columns:repeat(2,1fr);gap:1rem}
+  .cats-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">Biblio<span>Clube</span></a>
+    <a href="/" class="btn-back">← Acervo</a>
+  </div>
+</header>
+
+<div id="cat-hero-wrap">
+  <div class="loading">Carregando...</div>
+</div>
+
+<div class="livros-section">
+  <div class="livros-grid" id="livros-grid">
+    <div class="loading" style="grid-column:1/-1">Carregando livros...</div>
+  </div>
+</div>
+
+<div class="outras-cats" id="outras-wrap" style="display:none">
+  <div class="outras-inner">
+    <h3 class="outras-titulo">Outras categorias</h3>
+    <div class="cats-grid" id="cats-grid"></div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <a href="/">BiblioClube</a> · Todos os livros são de domínio público</p>
+</footer>
+
+<script>
+const API = 'https://api.biblioclube.com.br';
+
+const CATS = {
+  classico: {nome:'Clássicos', desc:'As obras que definiram a literatura mundial. Leituras que resistiram ao tempo e continuam essenciais.', cor:'#2d1a08'},
+  romance:  {nome:'Romance',   desc:'Histórias de amor, paixão e sentimentos que atravessam séculos e culturas.', cor:'#2d0a1a'},
+  aventura: {nome:'Aventura',  desc:'Jornadas épicas, tesouros escondidos e heróis improvável. Para quem não consegue parar de virar páginas.', cor:'#0a1a2d'},
+  suspense: {nome:'Suspense',  desc:'Mistérios, crimes e revelações perturbadoras. Leitura para quem gosta de coração acelerado.', cor:'#0a0a1a'},
+  drama:    {nome:'Drama',     desc:'Histórias sobre a condição humana — amor, perda, redensão e tudo que nos torna humanos.', cor:'#1a0a0a'},
+  filosofia:{nome:'Filosofia', desc:'Textos que mudaram o modo como o mundo pensa. De Sun Tzu a Nietzsche.', cor:'#1a1a00'},
+  serie:    {nome:'Séries',    desc:'Sagas completas com personagens inesquecíveis. De Sherlock Holmes a Arsène Lupin.', cor:'#1a0e00'},
+  manga:    {nome:'Mangá',     desc:'Clássicos japoneses que definiram um gênero. Arte e narrativa numa forma única.', cor:'#0a0a20'},
+  gibi:     {nome:'HQ / Gibi', desc:'Quadrinhos clássicos que marcaram gerações — Flash Gordon, Tarzan e mais.', cor:'#0a1a00'},
+};
+
+function getSlug(){
+  const p = new URLSearchParams(window.location.search);
+  return p.get('cat') || '';
+}
+
+function corCat(cat){ return CATS[cat]?.cor || '#1a1a1a'; }
+
+async function init(){
+  const cat = getSlug();
+  if(!cat){ window.location.href='/'; return; }
+  const info = CATS[cat] || {nome: cat, desc:'', cor:'#1a1a1a'};
+
+  // SEO
+  document.title = `${info.nome} — BiblioClube`;
+  document.getElementById('pg-title').textContent = document.title;
+  document.getElementById('pg-desc').content = info.desc;
+
+  try{
+    const r = await fetch(`${API}/api/livros?cat=${cat}`);
+    const d = await r.json();
+    const livros = d.livros || [];
+
+    // Hero
+    document.getElementById('cat-hero-wrap').innerHTML = `
+      <div class="cat-hero">
+        <div class="cat-hero-inner">
+          <div class="cat-eyebrow">Categoria</div>
+          <h1 class="cat-nome">${info.nome}</h1>
+          <p class="cat-desc">${info.desc}</p>
+          <span class="cat-count">${livros.length} ${livros.length===1?'livro':'livros'} disponíveis</span>
+        </div>
+      </div>`;
+
+    // Grid de livros
+    const grid = document.getElementById('livros-grid');
+    if(!livros.length){
+      grid.innerHTML = '<div class="loading">Nenhum livro nesta categoria ainda. Em breve!</div>';
+    } else {
+      grid.innerHTML = livros.map(l=>{
+        const cor = corCat(l.categoria);
+        const capaHtml = l.capa_url
+          ? `<img src="${l.capa_url}" alt="${esc(l.titulo)}" onerror="this.style.display='none'">`
+          : `<div class="livro-capa-fallback" style="background:linear-gradient(160deg,${cor},${cor}cc)">
+              <div style="font-family:Georgia,serif;font-size:.75rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;line-height:1.3">${esc(l.titulo)}</div>
+             </div>`;
+        return `
+          <div class="livro-card" onclick="window.location.href='/livro.html?slug=${l.slug||l.id}'">
+            <div class="livro-capa">${capaHtml}</div>
+            <div class="livro-titulo">${esc(l.titulo)}</div>
+            <div class="livro-autor">${esc(l.autor)}</div>
+          </div>`;
+      }).join('');
+    }
+
+    // Outras categorias
+    const outras = Object.entries(CATS).filter(([k])=>k!==cat);
+    document.getElementById('outras-wrap').style.display='block';
+    document.getElementById('cats-grid').innerHTML = outras.map(([k,v])=>`
+      <a href="/categorias.html?cat=${k}" class="cat-pill-card">
+        <div class="cpn">${v.nome}</div>
+        <div class="cpc">Ver livros →</div>
+      </a>`).join('');
+
+  }catch(e){
+    document.getElementById('cat-hero-wrap').innerHTML = `<div class="loading">Erro ao carregar. <a href="/" style="color:var(--rust)">Voltar</a></div>`;
+  }
+}
+
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+init();
+</script>
+</body>
+</html>
