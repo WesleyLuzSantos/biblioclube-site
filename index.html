@@ -514,6 +514,7 @@ footer{
   background:rgba(8,7,6,.0);
   transition:background .3s, backdrop-filter .3s;
   pointer-events:none;
+  will-change:background, backdrop-filter;
 }
 .book-overlay.active{
   background:rgba(8,7,6,.75);
@@ -535,6 +536,7 @@ footer{
   transition:opacity .3s cubic-bezier(.34,1.2,.64,1), transform .3s cubic-bezier(.34,1.2,.64,1);
   pointer-events:none;
   max-height:90vh;overflow-y:auto;
+  will-change:opacity, transform;
 }
 .book-expanded.show{
   opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:all;
@@ -1030,9 +1032,16 @@ function abrirCard(id, cardEl){
   card.style.top='';
   card.style.right='';
 
-  // Mostrar overlay e card
-  document.getElementById('book-overlay').classList.add('active');
-  card.classList.add('show');
+  // Mostrar overlay e card (2x requestAnimationFrame garante que o navegador
+  // ja processou o conteudo/estilos acima antes de iniciar a transicao,
+  // evitando o "engasgo" no primeiro frame da animacao)
+  const overlay=document.getElementById('book-overlay');
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      overlay.classList.add('active');
+      card.classList.add('show');
+    });
+  });
 }
 
 function fecharCard(){
