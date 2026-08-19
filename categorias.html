@@ -120,7 +120,12 @@ function corCat(cat){ return CATS[cat]?.cor || '#1a1a1a'; }
 
 async function init(){
   const cat = getSlug();
-  const info = CATS[cat] || {nome: cat, desc:'', cor:'#1a1a1a'};
+  const info = CATS[cat];
+  if(!info){
+    document.getElementById('cat-hero-wrap').innerHTML = `<div class="loading">Categoria não encontrada. <a href="/" style="color:var(--rust)">Voltar</a></div>`;
+    document.getElementById('livros-grid').innerHTML = '';
+    return;
+  }
 
   // SEO
   document.title = `${info.nome} — BiblioClube`;
@@ -170,11 +175,14 @@ async function init(){
     // Outras categorias
     const outras = Object.entries(CATS).filter(([k])=>k!==cat);
     document.getElementById('outras-wrap').style.display='block';
-    document.getElementById('cats-grid').innerHTML = outras.map(([k,v])=>`
-      <a href="/categorias?cat=${k}" class="cat-pill-card">
+    document.getElementById('cats-grid').innerHTML = outras.map(([k,v])=>{
+      const href = '/categorias?cat=' + encodeURIComponent(k);
+      return `
+      <a href="${href}" class="cat-pill-card">
         <div class="cpn">${v.nome}</div>
         <div class="cpc">Ver livros →</div>
-      </a>`).join('');
+      </a>`;
+    }).join('');
 
   }catch(e){
     document.getElementById('cat-hero-wrap').innerHTML = `<div class="loading">Erro ao carregar. <a href="/" style="color:var(--rust)">Voltar</a></div>`;

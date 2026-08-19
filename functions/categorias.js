@@ -33,7 +33,14 @@ export async function onRequest(context) {
   const templateRes = await env.ASSETS.fetch(templateUrl.toString());
   let html = await templateRes.text();
 
-  const info = CATS[cat] || { nome: cat, desc: '', cor: '#1a1a1a' };
+  const info = CATS[cat];
+  if (!info) {
+    html = injetarNaoEncontrado(html);
+    return new Response(html, {
+      status: 404,
+      headers: { 'Content-Type': 'text/html; charset=UTF-8' },
+    });
+  }
 
   let livros = [];
   try {
@@ -49,6 +56,18 @@ export async function onRequest(context) {
     status: 200,
     headers: { 'Content-Type': 'text/html; charset=UTF-8' },
   });
+}
+
+function injetarNaoEncontrado(html) {
+  html = html.replace(
+    '<title id="pg-title">Categorias — BiblioClube</title>',
+    '<title id="pg-title">Categoria não encontrada — BiblioClube</title>'
+  );
+  html = html.replace('<!--SSR_META-->', '<meta name="robots" content="noindex">');
+  const heroHtml = `<div class="loading">Categoria não encontrada. <a href="/" style="color:var(--rust)">Voltar</a></div>`;
+  html = html.replace(/<!--SSR_HERO_START-->[\s\S]*?<!--SSR_HERO_END-->/, heroHtml);
+  html = html.replace(/<!--SSR_GRID_START-->[\s\S]*?<!--SSR_GRID_END-->/, '');
+  return html;
 }
 
 function esc(s) {
