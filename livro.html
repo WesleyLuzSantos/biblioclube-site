@@ -421,13 +421,14 @@ async function carregarRelacionados(cat, idAtual, slugAtual){
     document.getElementById('rel-grid').innerHTML = outros.map(l=>{
       const cor2 = corCat(l.categoria);
       const slug2 = l.slug||l.id;
-      const capaImg = l.capa_url ? `<img src="${l.capa_url}" style="width:100%;height:100%;object-fit:cover;border-radius:3px 7px 7px 3px">` : '';
       const titulo2 = esc(l.titulo);
       const autor2  = esc(l.autor);
+      const capaConteudo = l.capa_url
+        ? `<img src="${l.capa_url}" style="width:100%;height:100%;object-fit:cover;border-radius:3px 7px 7px 3px">`
+        : `<div style="font-family:Georgia,serif;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;line-height:1.3">${titulo2}</div>`;
       return `<div class="rel-card" onclick="window.location.href='/livro?slug=${slug2}'">
         <div class="rel-capa" style="background:linear-gradient(160deg,${cor2},${cor2}cc)">
-          ${capaImg}
-          <div style="font-family:Georgia,serif;font-size:.72rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;line-height:1.3">${titulo2}</div>
+          ${capaConteudo}
         </div>
         <div class="rel-titulo-livro">${titulo2}</div>
         <div class="rel-autor-livro">${autor2}</div>
