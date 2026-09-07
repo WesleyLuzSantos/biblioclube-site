@@ -4,6 +4,7 @@
 
   <url>
     <loc>https://biblioclube.com.br/</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://biblioclube.com.br/"/>
@@ -11,6 +12,7 @@
 
   <url>
     <loc>https://biblioclube.com.br/sobre</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -22,32 +24,33 @@
   </url>
 
   <!-- Blog -->
-  <url><loc>https://biblioclube.com.br/blog</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/blog/o-que-e-dominio-publico</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://biblioclube.com.br/blog/por-que-ler-classicos</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://biblioclube.com.br/blog/como-h-g-wells-inventou-a-ficcao-cientifica</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://biblioclube.com.br/blog</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/blog/o-que-e-dominio-publico</loc><lastmod>2026-09-07</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://biblioclube.com.br/blog/por-que-ler-classicos</loc><lastmod>2026-09-07</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://biblioclube.com.br/blog/como-h-g-wells-inventou-a-ficcao-cientifica</loc><lastmod>2026-09-07</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
 
   <!-- Categorias com livros cadastrados -->
-  <url><loc>https://biblioclube.com.br/categorias?cat=classico</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/categorias?cat=aventura</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/categorias?cat=suspense</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/categorias?cat=serie</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=classico</loc><lastmod>2026-09-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=aventura</loc><lastmod>2026-09-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=suspense</loc><lastmod>2026-09-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/categorias?cat=serie</loc><lastmod>2026-09-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
 
-  <!-- Livros — slugs conferidos direto na API em 07/09/2026, batendo 1:1 com o catálogo real -->
-  <url><loc>https://biblioclube.com.br/livro?slug=dom-casmurro</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=memorias-postumas-de-bras-cubas</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=1984</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=o-conde-de-monte-cristo</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=orgulho-e-preconceito</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=um-estudo-em-vermelho</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=a-arte-da-guerra</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=a-revolucao-dos-bichos</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=os-tres-mosqueteiros</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=a-guerra-dos-mundos</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=a-maquina-do-tempo</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=iracema</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=o-cortico</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=o-coracao-delator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://biblioclube.com.br/livro?slug=o-gato-preto</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <!-- Livros — slugs conferidos direto na API em 07/09/2026, batendo 1:1 com o catálogo real.
+       lastmod 2026-09-07: sinopses preenchidas + title/description otimizados + Schema.org Book/BreadcrumbList adicionados. -->
+  <url><loc>https://biblioclube.com.br/livro?slug=dom-casmurro</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=memorias-postumas-de-bras-cubas</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=1984</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=o-conde-de-monte-cristo</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=orgulho-e-preconceito</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=um-estudo-em-vermelho</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=a-arte-da-guerra</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=a-revolucao-dos-bichos</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=os-tres-mosqueteiros</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=a-guerra-dos-mundos</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=a-maquina-do-tempo</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=iracema</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=o-cortico</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=o-coracao-delator</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://biblioclube.com.br/livro?slug=o-gato-preto</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
 </urlset>

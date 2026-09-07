@@ -37,7 +37,7 @@ header{position:sticky;top:0;z-index:100;background:rgba(250,248,243,.95);backdr
 /* GRID DE LIVROS */
 .livros-section{max-width:1100px;margin:0 auto;padding:3rem 2rem}
 .livros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1.5rem}
-.livro-card{cursor:pointer;transition:transform .2s}
+.livro-card{display:block;cursor:pointer;transition:transform .2s;text-decoration:none;color:inherit}
 .livro-card:hover{transform:translateY(-5px)}
 .livro-capa{width:100%;aspect-ratio:2/3;border-radius:3px 10px 10px 3px;overflow:hidden;box-shadow:3px 6px 20px rgba(0,0,0,.12),inset -3px 0 6px rgba(0,0,0,.06);margin-bottom:.7rem;position:relative}
 .livro-capa img{width:100%;height:100%;object-fit:cover}
@@ -164,11 +164,11 @@ async function init(){
               <div style="font-family:Georgia,serif;font-size:.75rem;font-weight:700;color:rgba(255,255,255,.9);text-align:center;line-height:1.3">${esc(l.titulo)}</div>
              </div>`;
         return `
-          <div class="livro-card" onclick="window.location.href='/livro?slug=${l.slug||l.id}'">
+          <a class="livro-card" href="/livro?slug=${l.slug||l.id}">
             <div class="livro-capa">${capaHtml}</div>
             <div class="livro-titulo">${esc(l.titulo)}</div>
             <div class="livro-autor">${esc(l.autor)}</div>
-          </div>`;
+          </a>`;
       }).join('');
     }
 
