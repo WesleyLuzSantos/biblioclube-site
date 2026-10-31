@@ -53,4 +53,8 @@
   <url><loc>https://biblioclube.com.br/livro?slug=o-coracao-delator</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://biblioclube.com.br/livro?slug=o-gato-preto</loc><lastmod>2026-09-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
+  <url>
+    <loc>https://biblioclube.com.br/contato</loc>
+    <lastmod>2026-10-31</lastmod>
+  </url>
 </urlset>

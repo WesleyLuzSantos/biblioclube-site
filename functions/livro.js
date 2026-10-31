@@ -4,6 +4,8 @@
 // e window.__SSR_LIVRO__ (pra hidratação, evitando um segundo fetch no
 // cliente) dentro do template estático livro.html.
 
+import { CONTEUDO } from './_lib/conteudo.js';
+
 const API = 'https://api.biblioclube.com.br';
 
 export async function onRequest(context) {
@@ -71,6 +73,7 @@ function injetarNaoEncontrado(html, msg) {
     <a href="/" style="color:var(--rust);font-size:.85rem">← Voltar ao acervo</a>
   </div>`;
   html = html.replace(/<!--SSR_HERO_START-->[\s\S]*?<!--SSR_HERO_END-->/, heroHtml);
+  html = html.replace('<!--SSR_GUIA-->', '');
   return html;
 }
 
@@ -82,6 +85,25 @@ function metaDescricao(titulo, sinopse) {
     corpo = corpo.slice(0, Math.max(0, maxCorpo - 1)).replace(/\s+\S*$/, '') + '…';
   }
   return prefixo + corpo;
+}
+
+function guiaLeitura(slug, titulo, autor) {
+  const c = CONTEUDO[slug];
+  if (!c) return '';
+  const pers = (c.personagens || []).map(([n, d]) => `<li><strong>${esc(n)}:</strong> ${esc(d)}</li>`).join('');
+  return `<section class="guia-leitura" style="max-width:860px;margin:2.5rem auto;padding:0 1.25rem;font-family:'Figtree',system-ui,sans-serif;line-height:1.8;color:inherit">
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.7rem;margin:0 0 .6rem">Guia de leitura: ${esc(titulo)} online</h2>
+    <p>${esc(c.sobre)}</p>
+    <h3 style="font-size:1.1rem;margin:1.6rem 0 .4rem">Personagens e elementos principais</h3>
+    <ul style="margin:0 0 .6rem 1.2rem">${pers}</ul>
+    <h3 style="font-size:1.1rem;margin:1.6rem 0 .4rem">Contexto da obra</h3>
+    <p>${esc(c.contexto)}</p>
+    <h3 style="font-size:1.1rem;margin:1.6rem 0 .4rem">Sobre o autor: ${esc(autor)}</h3>
+    <p>${esc(c.autor)}</p>
+    <h3 style="font-size:1.1rem;margin:1.6rem 0 .4rem">Curiosidades</h3>
+    <p>${esc(c.curiosidade)}</p>
+    <p style="margin-top:1.6rem"><strong>Ler ${esc(titulo)} online grátis:</strong> o texto completo está disponível no leitor do BiblioClube, sem cadastro, direto no navegador.</p>
+  </section>`;
 }
 
 function injetarLivro(html, l, url) {
@@ -167,6 +189,7 @@ function injetarLivro(html, l, url) {
   </div>`;
   html = html.replace(/<!--SSR_HERO_START-->[\s\S]*?<!--SSR_HERO_END-->/, heroHtml);
 
+  html = html.replace('<!--SSR_GUIA-->', guiaLeitura(slugLivro, titulo, autor));
   html = html.replace(
     '<!--SSR_DATA-->',
     `<script>window.__SSR_LIVRO__=${JSON.stringify(l)};</script>`

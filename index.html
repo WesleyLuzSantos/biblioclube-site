@@ -645,6 +645,7 @@ body.noturno .search-result-item:hover{background:var(--surface)}
     <a href="#categorias">Categorias</a>
     <a href="#leitor">Leitor</a>
     <a href="/blog">Blog</a>
+    <a href="https://escolas.biblioclube.com.br/?utm_source=biblioclube&utm_medium=site&utm_campaign=menu" style="color:#c45c2a;white-space:nowrap">BiblioClube Escolas</a>
   </nav>
   <div style="display:flex;align-items:center;gap:.6rem">
     <button onclick="toggleModo()" id="btn-modo"
@@ -665,7 +666,7 @@ body.noturno .search-result-item:hover{background:var(--surface)}
     <em>que cabe no bolso</em>
     <span>Leia mais. Viva mais.</span>
   </h1>
-  <p class="hero-sub">Os maiores clássicos da literatura mundial, sagas épicas e gibis — direto no seu navegador, sem baixar nada.</p>
+  <p class="hero-sub">Livros online grátis: os maiores clássicos da literatura mundial, sagas épicas e gibis, para ler online direto no seu navegador, sem baixar nada e sem cadastro.</p>
   <div class="hero-actions">
     <a href="#acervo" class="btn-filled">Explorar o acervo</a>
     <a href="#leitor" class="btn-ghost">Como funciona</a>
@@ -676,16 +677,6 @@ body.noturno .search-result-item:hover{background:var(--surface)}
   </div>
 </section>
 
-<!-- ADSENSE: Banner topo — entre hero e acervo -->
-<div style="text-align:center;padding:1.5rem 1rem;background:var(--deep);border-top:1px solid var(--edge)">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-6696233215166291"
-       data-ad-slot="auto"
-       data-ad-format="horizontal"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
 
 <!-- MARQUEE -->
 <div class="marquee-wrap">
@@ -722,7 +713,7 @@ body.noturno .search-result-item:hover{background:var(--surface)}
 <section class="search-section" id="busca">
   <div class="search-inner">
     <h2 class="search-title">Encontre seu <em>próximo livro</em></h2>
-    <p class="search-sub">Pesquise por título ou autor em todo o acervo</p>
+    <p class="search-sub">Livros online grátis: pesquise por título ou autor e leia online em todo o acervo</p>
     <div class="search-box">
       <div class="search-icon">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -730,12 +721,26 @@ body.noturno .search-result-item:hover{background:var(--surface)}
           <path d="M10 10L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <input class="search-input" id="s-input" placeholder="Dom Casmurro, Machado de Assis…" oninput="buscar(this.value)" autocomplete="off">
+      <input class="search-input" id="s-input" placeholder="Ex.: Dom Casmurro online, 1984 online grátis, Machado de Assis…" oninput="buscar(this.value)" autocomplete="off">
       <button class="search-btn" onclick="buscar(document.getElementById('s-input').value)">Buscar</button>
     </div>
     <div class="search-results" id="s-results"></div>
   </div>
 </section>
+
+<!-- PROMO BIBLIOCLUBE ESCOLAS -->
+<aside class="promo-escolas" style="max-width:1080px;margin:2.5rem auto;padding:0 1.25rem">
+  <div style="background:linear-gradient(135deg,#1c1916 0%,#141210 100%);border:1px solid #2a2520;border-left:4px solid #c45c2a;border-radius:6px;padding:1.7rem 2rem;display:flex;flex-wrap:wrap;align-items:center;gap:1.4rem;justify-content:space-between">
+    <div style="flex:1 1 340px;min-width:0">
+      <div style="font-family:'Syne',system-ui,sans-serif;font-size:.64rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#c45c2a;margin-bottom:.5rem">Para escolas e bibliotecas</div>
+      <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.55rem;font-weight:600;color:#fff8e6;line-height:1.25;margin-bottom:.45rem">Gerencie a biblioteca da sua escola com o <em style="color:#c45c2a">BiblioClube Escolas</em></div>
+      <div style="font-family:system-ui,sans-serif;font-size:.9rem;color:rgba(255,248,230,.72);line-height:1.6">Cadastro de livros por ISBN, empréstimos, reservas e relatórios, com app gratuito para os alunos na Google Play. 30 dias grátis, sem cartão de crédito.</div>
+    </div>
+    <a href="https://escolas.biblioclube.com.br/?utm_source=biblioclube&utm_medium=site&utm_campaign=promo" style="font-family:'Syne',system-ui,sans-serif;background:#c45c2a;color:#fff;text-decoration:none;font-weight:600;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;padding:.95rem 1.5rem;border-radius:2px;white-space:nowrap">Conhecer o sistema →</a>
+  </div>
+</aside>
+
+
 
 <!-- ACERVO -->
 <section class="acervo-section" id="acervo">
@@ -758,16 +763,7 @@ body.noturno .search-result-item:hover{background:var(--surface)}
       </div>
     </div>
     <div class="books-grid" id="books-grid"></div>
-    <!-- ADSENSE: Retângulo médio após acervo -->
-    <div style="text-align:center;margin:2rem 0 1rem;padding:1rem">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6696233215166291"
-           data-ad-slot="auto"
-           data-ad-format="rectangle"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
+
     <div style="text-align:center;margin-top:2rem;display:none" id="ver-mais-wrap">
       <button class="btn-ghost" onclick="verMais()" style="margin:0 auto">Ver mais livros</button>
     </div>
@@ -825,27 +821,24 @@ body.noturno .search-result-item:hover{background:var(--surface)}
   </div>
 </section>
 
-<!-- ADSENSE: Banner rodapé -->
-<div style="text-align:center;padding:1.5rem 1rem;background:var(--deep);border-top:1px solid var(--edge)">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-6696233215166291"
-       data-ad-slot="auto"
-       data-ad-format="horizontal"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
 
 <!-- FOOTER -->
+<!-- LIVROS ONLINE (lista de links) -->
+<section id="livros-online" style="max-width:1080px;margin:2.5rem auto;padding:0 1.25rem">
+  <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.8rem;margin-bottom:.4rem">Livros online grátis para ler agora</h2>
+  <p style="font-size:.95rem;opacity:.8;margin-bottom:1rem;line-height:1.7">Leia online, sem cadastro e sem pagar nada, grandes obras de domínio público: literatura brasileira, clássicos mundiais, suspense, ficção científica e aventura. Escolha um livro e comece a ler no navegador, no celular ou no computador.</p>
+  <div><a href="/livro?slug=dom-casmurro" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">Dom Casmurro online</a><a href="/livro?slug=memorias-postumas-de-bras-cubas" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">Memórias Póstumas de Brás Cubas online</a><a href="/livro?slug=1984" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">1984 online</a><a href="/livro?slug=o-conde-de-monte-cristo" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">O Conde de Monte Cristo online</a><a href="/livro?slug=orgulho-e-preconceito" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">Orgulho e Preconceito online</a><a href="/livro?slug=um-estudo-em-vermelho" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">Um Estudo em Vermelho online</a><a href="/livro?slug=a-arte-da-guerra" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">A Arte da Guerra online</a><a href="/livro?slug=a-revolucao-dos-bichos" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">A Revolução dos Bichos online</a><a href="/livro?slug=os-tres-mosqueteiros" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">Os Três Mosqueteiros online</a><a href="/livro?slug=a-guerra-dos-mundos" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">A Guerra dos Mundos online</a><a href="/livro?slug=a-maquina-do-tempo" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">A Máquina do Tempo online</a><a href="/livro?slug=iracema" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">Iracema online</a><a href="/livro?slug=o-cortico" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">O Cortiço online</a><a href="/livro?slug=o-coracao-delator" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">O Coração Delator online</a><a href="/livro?slug=o-gato-preto" style="display:inline-block;margin:.25rem .5rem .25rem 0;padding:.45rem .8rem;border:1px solid #2a2520;border-radius:2px;color:inherit;text-decoration:none;font-size:.85rem">O Gato Preto online</a></div>
+</section>
+
 <!-- PROMO BIBLIOCLUBE ESCOLAS -->
-<aside class="promo-escolas" style="max-width:960px;margin:2.5rem auto;padding:0 1rem">
-  <div style="background:#fdf0ea;border:1px solid #e8c9b6;border-radius:16px;padding:1.6rem 1.8rem;display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem;justify-content:space-between;font-family:system-ui,sans-serif">
-    <div style="flex:1 1 320px;min-width:0">
-      <div style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#c45c2a;margin-bottom:.35rem">Para escolas e bibliotecas</div>
-      <div style="font-size:1.25rem;font-weight:700;color:#1c1814;line-height:1.3;margin-bottom:.35rem">Gerencie a biblioteca da sua escola com o BiblioClube Escolas</div>
-      <div style="font-size:.92rem;color:#3a3428;line-height:1.55">Cadastro de livros por ISBN, empréstimos, reservas e relatórios, com app gratuito para os alunos na Google Play. 30 dias grátis, sem cartão de crédito.</div>
+<aside class="promo-escolas" style="max-width:1080px;margin:2.5rem auto;padding:0 1.25rem">
+  <div style="background:linear-gradient(135deg,#1c1916 0%,#141210 100%);border:1px solid #2a2520;border-left:4px solid #c45c2a;border-radius:6px;padding:1.7rem 2rem;display:flex;flex-wrap:wrap;align-items:center;gap:1.4rem;justify-content:space-between">
+    <div style="flex:1 1 340px;min-width:0">
+      <div style="font-family:'Syne',system-ui,sans-serif;font-size:.64rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#c45c2a;margin-bottom:.5rem">Para escolas e bibliotecas</div>
+      <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.55rem;font-weight:600;color:#fff8e6;line-height:1.25;margin-bottom:.45rem">Gerencie a biblioteca da sua escola com o <em style="color:#c45c2a">BiblioClube Escolas</em></div>
+      <div style="font-family:system-ui,sans-serif;font-size:.9rem;color:rgba(255,248,230,.72);line-height:1.6">Cadastro de livros por ISBN, empréstimos, reservas e relatórios, com app gratuito para os alunos na Google Play. 30 dias grátis, sem cartão de crédito.</div>
     </div>
-    <a href="https://escolas.biblioclube.com.br/?utm_source=biblioclube&utm_medium=site&utm_campaign=promo" style="background:#c45c2a;color:#fff;text-decoration:none;font-weight:700;padding:.85rem 1.4rem;border-radius:10px;white-space:nowrap;font-size:.95rem">Conhecer o sistema para escolas →</a>
+    <a href="https://escolas.biblioclube.com.br/?utm_source=biblioclube&utm_medium=site&utm_campaign=promo" style="font-family:'Syne',system-ui,sans-serif;background:#c45c2a;color:#fff;text-decoration:none;font-weight:600;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;padding:.95rem 1.5rem;border-radius:2px;white-space:nowrap">Conhecer o sistema →</a>
   </div>
 </aside>
 
@@ -857,7 +850,7 @@ body.noturno .search-result-item:hover{background:var(--surface)}
         <p>A biblioteca que cabe no bolso. Leitura boa para todo tipo de leitor.</p>
       </div>
       <div><div class="fc-head">Acervo</div><div class="fc-links"><a href="/categorias?cat=classico">Clássicos</a><a href="/categorias?cat=aventura">Aventura</a><a href="/categorias?cat=suspense">Suspense</a><a href="/categorias?cat=serie">Séries</a></div></div>
-      <div><div class="fc-head">BiblioClube</div><div class="fc-links"><a href="/sobre">Sobre</a><a href="/blog">Blog</a></div></div>
+      <div><div class="fc-head">BiblioClube</div><div class="fc-links"><a href="/sobre">Sobre</a><a href="/blog">Blog</a><a href="/contato">Contato</a></div></div>
       <div><div class="fc-head">Para Escolas</div><div class="fc-links"><a href="https://escolas.biblioclube.com.br/?utm_source=biblioclube&utm_medium=site&utm_campaign=rodape">BiblioClube Escolas</a><a href="https://escolas.biblioclube.com.br/#planos">Planos</a><a href="https://escolas.biblioclube.com.br/blog">Blog para escolas</a></div></div>
     </div>
     <div class="footer-bottom"><span>© 2026 BiblioClube · Domínio público</span><span><a href="/privacidade" style="color:var(--ember);text-decoration:none">Política de Privacidade</a> · Feito para leitores brasileiros</span></div>
@@ -1060,7 +1053,7 @@ function renderBooks(lista){
   grid.innerHTML=mostrar.map(l=>{
     const cor = l.cor || corPorCategoria(l.cat||l.categoria||'');
     const capaHtml = l.capa_url
-      ? `<img src="${l.capa_url}" alt="${l.titulo}" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.style.display='none'">`
+      ? `<img src="${l.capa_url}" alt="${l.titulo} online - capa" style="width:100%;height:100%;object-fit:cover" loading="lazy" onerror="this.style.display='none'">`
       : `<div class="book-cover-art" style="background:linear-gradient(175deg,${cor} 0%,${cor}99 60%,rgba(0,0,0,.3) 100%)">
           <div class="cover-stripe" style="background:var(--ember);opacity:.6"></div>
           <div class="cover-title">${l.titulo}</div>
@@ -1082,7 +1075,7 @@ function renderBooks(lista){
       </div>
       <div class="book-meta">
         <div>
-          <a class="bm-title" href="/livro?slug=${l.slug||l.id}" onclick="event.stopPropagation()">${l.titulo}</a>
+          <a class="bm-title" title="Ler ${l.titulo} online grátis" href="/livro?slug=${l.slug||l.id}" onclick="event.stopPropagation()">${l.titulo}</a>
           <div class="bm-author">${l.autor}</div>
         </div>
         <span class="bm-cat">${catLabel(l.cat||l.categoria)}</span>
@@ -1109,9 +1102,16 @@ function verMais(){
 }
 
 let _buscaTimer=null;
+// Quem pesquisa "dom casmurro online grátis" não escreve só o título: tira as palavras de apoio.
+function _limpaBusca(q){
+  const fora=['online','gratis','grátis','gratuito','gratuita','ler','livro','livros','pdf','baixar','completo','de','graça'];
+  const t=(q||'').toLowerCase().trim().split(/\s+/).filter(w=>!fora.includes(w));
+  return t.length?t.join(' '):(q||'').trim();
+}
+
 function buscar(q){
   const el=document.getElementById('s-results');
-  const v=q.trim();
+  const v=_limpaBusca(q);
   if(!v||v.length<2){el.style.display='none';return;}
   el.style.display='block';
   el.innerHTML='<div class="search-empty">Buscando...</div>';
